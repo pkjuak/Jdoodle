@@ -1,6 +1,6 @@
 public void manipulatePdf(String dest) throws IOException {
    //Load the license file to use cleanup features
-   LicenseKey.loadLicenseFile("licese.xml");
+   LicenseKey.loadLicenseFile("license.xml");
    PdfDocument pdfDocument = new PdfDocument(new PdfReader(SRC), new PdfWriter(dest));
    PdfAcroForm pdfAcroForm = PdfAcroForm.getAcroForm(pdfDocument, false);
 

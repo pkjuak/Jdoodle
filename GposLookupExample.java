@@ -15,14 +15,14 @@ import java.io.IOException;
 public class GposLookupExample {
     private static String TEXT = "ဗမာမှာ လူများစုဗမာမျိုး နွယ်စု၏ ခေါ် ရာတွင် တရားဝင်ခေါ် သော အသုံး ဖြ စ်သည်။ အင်္ဂလိပ်လက်အော က်";
     private static String FONT = "src/main/resources/font/NotoSansMyanmar-Regular.ttf";
-    private static String DEST = "target/SUP35025/Calligraph_OLD.pdf";
+    private static String DEST = "target/result.pdf";
 
     public static void main(String[] args) throws IOException {
         manipulatePdf(DEST);
     }
 
     public static void manipulatePdf(String dest) throws IOException {
-        LicenseKey.loadLicenseFile(new FileInputStream("C:\\Repositories\\JAVA_SUPPORT\\License\\all-products.json"));
+        LicenseKey.loadLicenseFile(new FileInputStream("license/license.json"));
 
         Document document = new Document(new PdfDocument(new PdfWriter(dest)));
         PdfFont font = PdfFontFactory.createFont(FONT,

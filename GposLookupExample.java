@@ -22,14 +22,14 @@ public class GposLookupExample {
     }
 
     public static void manipulatePdf(String dest) throws IOException {
-        LicenseKey.loadLicenseFile(new FileInputStream("License/license.json"));
+        LicenseKey.loadLicenseFile(new FileInputStream("C:\\Repositories\\JAVA_SUPPORT\\License\\all-products.json"));
 
         Document document = new Document(new PdfDocument(new PdfWriter(dest)));
         PdfFont font = PdfFontFactory.createFont(FONT,
                                                  PdfEncodings.IDENTITY_H, PdfFontFactory.EmbeddingStrategy.FORCE_EMBEDDED);
         Paragraph paragraph = new Paragraph(TEXT)
-                .setBaseDirection(BaseDirection.RIGHT_TO_LEFT)
-                .setTextAlignment(TextAlignment.RIGHT);
+                .setBaseDirection(BaseDirection.LEFT_TO_RIGHT)
+                .setTextAlignment(TextAlignment.LEFT);
         font.setSubset(false);
 
         paragraph.setFont(font);

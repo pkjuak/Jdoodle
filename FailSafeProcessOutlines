@@ -1,10 +1,29 @@
-  /** Merges a PDF with a broken outline structure */
-public void mergeOutlines() throws IOException, InterruptedException {
-      
-        PdfDocument inputDoc = new PdfDocument(new PdfReader("infiniteLoopInOutlineStructure.pdf"));
-        PdfDocument outputDoc = new PdfDocument(new PdfWriter("result.pdf"));
 
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfReader;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.kernel.utils.PdfMerger;
+import java.io.IOException;
+
+public class FailSafeProcessOutlines {
+    public static void main(String[] args) {
+        new FailSafeProcessOutlines().mergeOutlines();
+    }
+
+    /**
+     * Merges a PDF with a broken outline structure
+     */
+    public void mergeOutlines() {
+        PdfDocument inputDoc = null;
+        PdfDocument outputDoc = null;
+        try {
+            inputDoc = new PdfDocument(new PdfReader("infiniteLoopInOutlineStructure.pdf"));
+            outputDoc = new PdfDocument(new PdfWriter("result.pdf"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         PdfMerger merger = new PdfMerger(outputDoc, false, true);
         merger.merge(inputDoc, 1, 2);
         merger.close();
     }
+}

@@ -12,7 +12,7 @@ public class RichTextXFATest {
     private static String LICENSE = "license.json"; 
 
     public static void main(String[]args){
-        manipulatePdf("richTextFieldNoDataBinding.pdf" ,"output.pdf");
+        manipulatePdf("richTextFieldNoDataBinding.pdf" ,"result.pdf");
     } 
 
     public static void manipulatePdf(String src, String dest) throws Exception { 

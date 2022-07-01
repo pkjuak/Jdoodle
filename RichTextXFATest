@@ -9,7 +9,7 @@ import java.io.FileOutputStream;
 
 public class RichTextXFATest { 
 
-    private static String LICENSE = "license.xml"; 
+    private static String LICENSE = "license.json"; 
 
     public static void main(String[]args){
         manipulatePdf("richTextFieldNoDataBinding.pdf" ,"output.pdf");

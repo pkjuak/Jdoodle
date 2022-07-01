@@ -1,8 +1,9 @@
 import com.itextpdf.licensing.base.LicenseKey; 
+
 import com.itextpdf.tool.xml.xtra.xfa.MetaData; 
 import com.itextpdf.tool.xml.xtra.xfa.XFAFlattener; 
 import com.itextpdf.tool.xml.xtra.xfa.XFAFlattenerProperties; 
-import com.itextpdf.tool.xml.xtra.xfa.font.XFAFontSettings; 
+
 import java.io.FileInputStream; 
 import java.io.FileOutputStream; 
 
@@ -17,22 +18,20 @@ public class RichTextXFATest {
     public static void manipulatePdf(String src, String dest) throws Exception { 
         LicenseKey.loadLicenseFile(new FileInputStream(LICENSE)); 
 
-        XFAFlattenerProperties flattenerProperties = new XFAFlattenerProperties(); 
-        flattenerProperties.setPdfVersion(XFAFlattenerProperties.PDF_1_7) 
-                .createXmpMetaData() 
-                .setTagged() 
-                .setMetaData( 
-                        new MetaData() 
-                                .setAuthor("ITEST_SUPPORT") 
-                                .setLanguage("EN") 
-                                .setSubject("Dotted List Document") 
-                                .setTitle("Flattened XFA")); 
-                                
-        XFAFlattener flattener = new XFAFlattener() 
-                .setFontSettings(new XFAFontSettings().setEmbedExternalFonts(true)) 
-                .setFlattenerProperties(flattenerProperties) 
-                .setViewMode(XFAFlattener.ViewMode.SCREEN); 
+       XFAFlattenerProperties flattenerProperties = new XFAFlattenerProperties()
+                .setPdfVersion(XFAFlattenerProperties.PDF_1_7)
+                .createXmpMetaData()
+                .setTagged()
+                .setMetaData(
+                        new MetaData()
+                            .setAuthor("iText Samples")
+                            .setLanguage("EN")
+                            .setSubject("Showing off our flattening skills")
+                            .setTitle("Flattened XFA"));
+ 
+        XFAFlattener xfaf = new XFAFlattener()
+                .setFlattenerProperties(flattenerProperties);
 
-        flattener.flatten(new FileInputStream(src), new FileOutputStream(dest)); 
+        xfaf.flatten(new FileInputStream(src), new FileOutputStream(dest)); 
     } 
 } 

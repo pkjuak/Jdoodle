@@ -1,4 +1,4 @@
-import com.itextpdf.licensekey.LicenseKey; 
+import com.itextpdf.licensing.base.LicenseKey; 
 import com.itextpdf.tool.xml.xtra.xfa.MetaData; 
 import com.itextpdf.tool.xml.xtra.xfa.XFAFlattener; 
 import com.itextpdf.tool.xml.xtra.xfa.XFAFlattenerProperties; 
@@ -15,7 +15,7 @@ public class RichTextXFATest {
     } 
 
     public static void manipulatePdf(String src, String dest) throws Exception { 
-        LicenseKey.loadLicenseFile(LICENSE); 
+        LicenseKey.loadLicenseFile(new FileInputStream(LICENSE)); 
 
         XFAFlattenerProperties flattenerProperties = new XFAFlattenerProperties(); 
         flattenerProperties.setPdfVersion(XFAFlattenerProperties.PDF_1_7) 

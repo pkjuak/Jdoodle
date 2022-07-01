@@ -1,0 +1,38 @@
+import com.itextpdf.licensekey.LicenseKey; 
+import com.itextpdf.tool.xml.xtra.xfa.MetaData; 
+import com.itextpdf.tool.xml.xtra.xfa.XFAFlattener; 
+import com.itextpdf.tool.xml.xtra.xfa.XFAFlattenerProperties; 
+import com.itextpdf.tool.xml.xtra.xfa.font.XFAFontSettings; 
+import java.io.FileInputStream; 
+import java.io.FileOutputStream; 
+
+public class RichTextXFATest { 
+
+    private static String LICENSE = "license.xml"; 
+
+    public static void main(String[]args){
+        manipulatePdf("richTextFieldNoDataBinding.pdf" ,"output.pdf");
+    } 
+
+    public static void manipulatePdf(String src, String dest) throws Exception { 
+        LicenseKey.loadLicenseFile(LICENSE); 
+
+        XFAFlattenerProperties flattenerProperties = new XFAFlattenerProperties(); 
+        flattenerProperties.setPdfVersion(XFAFlattenerProperties.PDF_1_7) 
+                .createXmpMetaData() 
+                .setTagged() 
+                .setMetaData( 
+                        new MetaData() 
+                                .setAuthor("ITEST_SUPPORT") 
+                                .setLanguage("EN") 
+                                .setSubject("Dotted List Document") 
+                                .setTitle("Flattened XFA")); 
+                                
+        XFAFlattener flattener = new XFAFlattener() 
+                .setFontSettings(new XFAFontSettings().setEmbedExternalFonts(true)) 
+                .setFlattenerProperties(flattenerProperties) 
+                .setViewMode(XFAFlattener.ViewMode.SCREEN); 
+
+        flattener.flatten(new FileInputStream(src), new FileOutputStream(dest)); 
+    } 
+} 

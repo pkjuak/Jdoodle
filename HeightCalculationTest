@@ -1,0 +1,113 @@
+import com.itextpdf.kernel.colors.ColorConstants; 
+import com.itextpdf.kernel.geom.PageSize; 
+import com.itextpdf.kernel.geom.Rectangle; 
+import com.itextpdf.kernel.pdf.PdfDocument; 
+import com.itextpdf.kernel.pdf.PdfWriter; 
+import com.itextpdf.layout.Document; 
+import com.itextpdf.layout.borders.Border; 
+import com.itextpdf.layout.element.Cell; 
+import com.itextpdf.layout.element.Paragraph; 
+import com.itextpdf.layout.element.Table; 
+import com.itextpdf.layout.element.Text; 
+import com.itextpdf.layout.layout.LayoutArea; 
+import com.itextpdf.layout.layout.LayoutContext; 
+import com.itextpdf.layout.layout.LayoutResult; 
+import com.itextpdf.layout.properties.TextAlignment; 
+
+import java.io.FileNotFoundException; 
+
+public class HeightCalculationTest { 
+
+    public static void main(String[] args) throws FileNotFoundException { 
+
+        PdfDocument pdfDoc = new PdfDocument(new PdfWriter("test.pdf")); 
+
+        Document doc = new Document(pdfDoc, new PageSize(700, 700)); 
+
+        // This is how table looks like if no height property is set 
+        addTable(doc, 504, "RETIREMENT PLANNING: BECAUSE YOU CAN’T BE A FINANCIAL PLANNER FOREVER.", -1); 
+
+        // Here we set value from pre layout as height. We expect that this table shall be equal to the previous one 
+        addTable(doc, 360, "RETIREMENT PLANNING: BECAUSE YOU CAN’T BE A FINANCIAL PLANNER FOREVER.", 0); 
+
+        // Here we set 100 as height. We expect that this will be enough, and all text will be placed 
+        addTable(doc, 216, "RETIREMENT PLANNING: BECAUSE YOU CAN’T BE A FINANCIAL PLANNER FOREVER.", 100); 
+
+        // Here we set 102 as height. We expect that this will be enough, and all text will be placed 
+        addTable(doc, 72, "RETIREMENT PLANNING: BECAUSE YOU CAN’T BE A FINANCIAL PLANNER FOREVER.", 102); 
+
+        doc.close(); 
+    } 
+
+    public static void addTable(Document doc, int y, String text, int heightParam) { 
+
+        float width = 585f; 
+        float fontSize = 32f; 
+ 
+
+        Table table = new Table(1); 
+        table.setWidth(width); 
+        table.setFixedLayout(); 
+
+        Paragraph ph = new Paragraph(); 
+
+        Text txt = new Text(text); 
+        txt.setFontSize(fontSize); 
+
+        ph.add(txt); 
+        ph.setFixedLeading(fontSize); 
+
+        Cell cell = new Cell(); 
+        cell.setPaddingTop(0f); 
+        cell.setPaddingBottom(0f); 
+        cell.add(ph); 
+        cell.setBackgroundColor(ColorConstants.LIGHT_GRAY); 
+        cell.setBorder(null); 
+
+        table.addCell(cell); 
+
+        // Retrieve the dimensions of the cell we just added 
+        LayoutResult result = table.createRendererSubTree() 
+                .setParent(doc.getRenderer()) 
+                .layout( 
+                        new LayoutContext( 
+                                new LayoutArea( 
+                                        1, 
+                                        new Rectangle(0, 0, width, 10000.0F))) 
+
+                ); 
+
+ 
+        String heightStr = "Natural"; 
+
+        if (heightParam == 0) { 
+            float rowHeight = result.getOccupiedArea().getBBox().getHeight(); 
+            cell.setHeight(rowHeight); 
+            
+            heightStr = "Calculated " + rowHeight; 
+            
+        } else if (heightParam > 0) { 
+            cell.setHeight(heightParam); 
+            heightStr = "Explicit " + heightParam; 
+        } 
+ 
+        table.setFixedPosition((float) 36, (float) y, width); 
+        
+        doc.add(table); 
+
+        Table t2 = new Table(1); 
+        t2.setWidth(width); 
+        t2.setFixedLayout(); 
+
+        Cell c2 = new Cell(); 
+        c2.setTextAlignment(TextAlignment.CENTER); 
+        c2.setWidth(width); 
+        c2.setBorder(Border.NO_BORDER); 
+        c2.add(new Paragraph("Row Height: " + heightStr)); 
+
+        t2.addCell(c2); 
+        t2.setFixedPosition((float) 36, (float) y - 18, width); 
+
+        doc.add(t2); 
+    } 
+} 

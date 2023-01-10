@@ -15,7 +15,7 @@ import java.io.IOException;
 
 public class TextWrapTest {
     public static void main(String[] args) throws IOException{
-        LicenseKey.loadLicenseFile(new FileInputStream("license/License/license.json"));
+        LicenseKey.loadLicenseFile(new FileInputStream("license/license.json"));
         String fileName = "target/testTextWrapping_New.pdf";
         testTextWrapping(fileName);
     }
